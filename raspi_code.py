@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+import simplejson as json
+import requests
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 face_profile_cascade = cv2.CascadeClassifier('haarcascade_profileface.xml')
@@ -14,7 +16,9 @@ def detectFaces(frame):
     return faces
 
 def transmitFrame(frame):
-    pass
+    print "Transmitting!"
+    url = 'http://localhost'
+    r = requests.post(url,data=frame)
 
 def cleanup():
     cv2.destroyAllWindows()
