@@ -8,16 +8,13 @@ cap = cv2.VideoCapture(0)
 
 def detectFaces(frame):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-    print faces
-    morefaces = face_profile_cascade.detectMultiScale(gray, 1.3, 5)
+    faces = face_cascade.detectMultiScale(gray, 1.3, 2)
+    morefaces = face_profile_cascade.detectMultiScale(gray, 1.3, 2)
     np.append(faces,morefaces)
-    print faces
-    for (x,y,w,h) in faces:
-        cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
-        roi_gray = gray[y:y+h, x:x+w]
-        roi_color = frame[y:y+h, x:x+w]
-    return frame
+    return faces
+
+def transmitFrame(frame):
+    pass
 
 def cleanup():
     cv2.destroyAllWindows()
@@ -28,11 +25,17 @@ while(True):
     ret, frame = cap.read()
 
     # Our operations on the frame come here
-    result = detectFaces(frame)
-    #result = frame
+    face_coords = detectFaces(frame)
+
+    for (x,y,w,h) in face_coords:
+        cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
+        roi_color = frame[y:y+h, x:x+w]
+
+    if len(face_coords) > 0:
+        transmitFrame(frame)
 
     # Display the resulting frame
-    cv2.imshow('frame',result)
+    cv2.imshow('frame',frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         cleanup()
         break
