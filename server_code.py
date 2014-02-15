@@ -4,12 +4,16 @@ from flask import Flask
 
 app = Flask(__name__,static_url_path='')
 
+faces = []
+
 @app.route("/")
-def hello():
+def main():
+    return 'Hello world!'
     #return send_from_directory('','index.html')
     #return app.send_static_file('index.html')
-    return render_template('index.html',None)
+    #return render_template('index.html')
 
-@app.route("/test")
+@app.route("/test")#,methods=["POST"])
 def test():
-    return "Testing!"
+    faces.append( request.form['img'] )
+    #return "Testing!"
