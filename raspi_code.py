@@ -17,7 +17,7 @@ def detectFaces(frame):
 
 def transmitFrame(frame):
     print "Transmitting!"
-    url = 'http://localhost'
+    url = 'http://0.0.0.0:5000/test'
     r = requests.post(url,data=frame)
 
 def cleanup():
