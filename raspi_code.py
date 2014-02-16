@@ -18,7 +18,10 @@ def detectFaces(frame):
 def transmitFrame(frame):
     print "Transmitting!"
     url = 'http://0.0.0.0:5000/test'
-    r = requests.post(url,data=frame)
+    payload = {'img':frame}
+    header = headers = {'Content-type': 'binary/octet-stream','Content-length':len(payload),'Content-transfer-encoding': 'binary',}
+    r = requests.post(url,data=payload)
+    print r.text
 
 def cleanup():
     cv2.destroyAllWindows()

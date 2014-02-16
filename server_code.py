@@ -5,15 +5,23 @@ from flask import Flask, render_template
 app = Flask(__name__)
 app.debug = True
 
+faces = []
+
 @app.route("/")
-def hello():
+def main():
+    return 'Hello world!'
     #return send_from_directory('','index.html')
     #return app.send_static_file('index.html')
+<<<<<<< HEAD
 
     return render_template('index.html')
+=======
+    #return render_template('index.html')
+>>>>>>> dca4c285ba8c46303e4457c5677bb11ada95f29e
 
-@app.route("/test")
+@app.route("/test")#,methods=["POST"])
 def test():
+<<<<<<< HEAD
     return "Testing!"
 
 
@@ -31,3 +39,7 @@ def facerecognition():
 
 if __name__ == "__main__":
     app.run()
+=======
+    faces.append( request.form['img'] )
+    #return "Testing!"
+>>>>>>> dca4c285ba8c46303e4457c5677bb11ada95f29e
