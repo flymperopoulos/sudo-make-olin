@@ -31,6 +31,7 @@ def facerecognition():
 def test():
     pprint(vars(request))
     print json.loads(request.form['img'])
+    faces.append(json.loads(request.form['img']))
     #faces.append( request.form['img'] )
     #return "Testing!"
     try:
