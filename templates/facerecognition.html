@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="static/bootstrap/css/bootstrap.css"/>
+		<title>Web Page</title>
+	</head>
+	<body>
+		<center>
+        	<h1>Attendence Sheet</h1>
+    	</center>
+    <table border="5" bordercolor="##666699" align="center">
+    	<tr>
+            <th colspan="6"></th> 
+        </tr>
+        <tr>
+            <th style ="font-size: 20px">Photo</th>
+            <th style ="font-size: 20px">Photo</th>
+            <th style ="font-size: 20px">Photo</th>
+            <th style ="font-size: 20px">Photo</th>
+            <th style ="font-size: 20px">Photo</th>
+            <th style ="font-size: 20px">Photo</th>
+            
+        </tr>
+        <tr>
+		{% for face in faces %}
+
+			<td><img src = "{{face}}" border=3 height=200 width=200> </td>
+		{% endfor %}
+		</tr>
+	</body>
+
+	
+<html>
+	 
