@@ -1,20 +1,14 @@
+import cv2 as cv
+import numpy as np
 import requests
 import simplejson as json
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, send_from_directory
 from pprint import pprint
 from ast import literal_eval
 
 app = Flask(__name__)
 app.debug = True
 faces = []
-faces = [
-	"http://www.greenteam.mersd.org/wp-content/uploads/2013/11/amazon-logo.jpeg",
-	"http://static.infowars.com/bindnfocom/2013/11/Bank-of-America-logo1.jpg",
-	"http://siliconrepublic.com/fs/img/news/201209/rs-426x288/new-ebay-logo.jpg",
-	"http://www.computec.co.jp/clients/images/logo_citi.jpg",
-	"http://d1xcqlxj49e9dd.cloudfront.net/wp-content/uploads/chase_3_after1.jpg",
-	"http://www.myrtlebeachgolf.com/media/images/fedex_logo.jpg"
-	]
 
 @app.route("/")
 def main():
@@ -22,15 +16,29 @@ def main():
     #return app.send_static_file('index.html')
     return render_template('index.html')
 
+@app.route("/faces/<path:filename>")
+def returnFace(filename):
+    print filename
+    return send_from_directory('./faces/',filename)
+
 @app.route("/facerecognition")
 def facerecognition():
     global faces
-    return render_template("facerecognition.html", faces=faces)
+    paths = []
+    i = 0
+    for face in faces:
+        face = np.array(face)
+        #face = cv.imdecode(face,1)
+        filename = "./faces/" + str(i)+".jpg"
+        cv.imwrite(filename,face)
+        paths.append(filename)
+        i += 1
+    return render_template("facerecognition.html", faces=paths)
 
 @app.route("/upload",methods=["POST"])
 def test():
-    pprint(vars(request))
-    print json.loads(request.form['img'])
+    #pprint(vars(request))
+    #print json.loads(request.form['img'])
     faces.append(json.loads(request.form['img']))
     #faces.append( request.form['img'] )
     #return "Testing!"
