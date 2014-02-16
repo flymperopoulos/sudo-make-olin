@@ -2,6 +2,7 @@ import requests
 import simplejson as json
 from flask import Flask, jsonify, request, render_template
 from pprint import pprint
+from ast import literal_eval
 
 app = Flask(__name__)
 app.debug = True
@@ -29,10 +30,14 @@ def facerecognition():
 @app.route("/upload",methods=["POST"])
 def test():
     pprint(vars(request))
-    print request.form['img']
+    print json.loads(request.form['img'])
+    faces.append(json.loads(request.form['img']))
     #faces.append( request.form['img'] )
     #return "Testing!"
-    return jsonify(dict(ok=True))
+    try:
+        return jsonify(dict(ok=True))
+    except:
+        pass
 
 
 if __name__ == '__main__':
