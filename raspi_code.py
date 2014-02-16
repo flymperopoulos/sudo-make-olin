@@ -1,12 +1,17 @@
 import cv2
 import numpy as np
-import simplejson as json
+#import simplejson as json
+import json
 import requests
+import Queue
+from threading import Thread
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 face_profile_cascade = cv2.CascadeClassifier('haarcascade_profileface.xml')
 print face_cascade.empty()
 cap = cv2.VideoCapture(0)
+
+frameQueue = Queue.Queue(1000)
 
 def detectFaces(frame):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -15,17 +20,23 @@ def detectFaces(frame):
     np.append(faces,morefaces)
     return faces
 
-def transmitFrame(frame):
-    print "Transmitting!"
-    url = 'http://0.0.0.0:5000/test'
-    payload = {'img':frame}
-    header = headers = {'Content-type': 'binary/octet-stream','Content-length':len(payload),'Content-transfer-encoding': 'binary',}
-    r = requests.post(url,data=payload)
-    print r.text
+def transmitFrame():
+    url = 'http://0.0.0.0:5000/upload'
+    while True:
+        if not frameQueue.empty():
+            print "Transmitting!"
+            frame = frameQueue.get()
+            payload = {'img':json.dumps({'frame':frame})}
+            #header = headers = {'Content-type': 'binary/octet-stream','Content-length':len(payload),'Content-transfer-encoding': 'binary',}
+            r = requests.post(url,data=payload)
 
 def cleanup():
     cv2.destroyAllWindows()
     cap.release()
+
+postThread = Thread(target=transmitFrame)
+postThread.daemon = True
+postThread.start()
 
 while(True):
     # Capture frame-by-frame
@@ -39,7 +50,8 @@ while(True):
         roi_color = frame[y:y+h, x:x+w]
 
     if len(face_coords) > 0:
-        transmitFrame(frame)
+        frameQueue.put(frame)
+        #transmitFrame(frame)
 
     # Display the resulting frame
     cv2.imshow('frame',frame)
