@@ -21,6 +21,11 @@ def main():
     #return app.send_static_file('index.html')
     return render_template('index.html')
 
+@app.route("/facerecognition")
+def facerecognition():
+    global faces
+    return render_template("facerecognition.html", faces=faces)
+
 @app.route("/upload",methods=["POST"])
 def test():
     pprint(vars(request))
@@ -32,6 +37,3 @@ def test():
 if __name__ == '__main__':
     app.run()
 
-@app.route("/facerecognition")
-def facerecognition():
-	return render_template("facerecognition.html", faces=faces)
