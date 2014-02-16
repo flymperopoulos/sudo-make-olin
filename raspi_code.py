@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-#import simplejson as json
 import json
 import requests
 import Queue
@@ -46,7 +45,7 @@ postThread2.start()
 
 while(True):
     # Capture frame-by-frame
-    time.sleep(.1) # only capture at 10 Hz
+    time.sleep(.1) # only capture at 10 Hz max
     ret, frame = cap.read()
 
     # Our operations on the frame come here

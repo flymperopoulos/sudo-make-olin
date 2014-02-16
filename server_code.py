@@ -1,13 +1,11 @@
 import cv2 as cv
 import numpy as np
-import requests
+#import requests
 import simplejson as json
 from flask import Flask, jsonify, request, render_template, send_from_directory, redirect
-from pprint import pprint
-from ast import literal_eval
 
 app = Flask(__name__)
-app.debug = True
+#app.debug = True
 faces = []
 
 @app.route("/")
