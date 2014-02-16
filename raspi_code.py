@@ -5,6 +5,7 @@ import json
 import requests
 import Queue
 from threading import Thread
+import time
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 face_profile_cascade = cv2.CascadeClassifier('haarcascade_profileface.xml')
@@ -39,8 +40,13 @@ postThread = Thread(target=transmitFrame)
 postThread.daemon = True
 postThread.start()
 
+postThread2 = Thread(target=transmitFrame)
+postThread2.daemon = True
+postThread2.start()
+
 while(True):
     # Capture frame-by-frame
+    time.sleep(.1) # only capture at 10 Hz
     ret, frame = cap.read()
 
     # Our operations on the frame come here

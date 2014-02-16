@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 import requests
 import simplejson as json
-from flask import Flask, jsonify, request, render_template, send_from_directory
+from flask import Flask, jsonify, request, render_template, send_from_directory, redirect
 from pprint import pprint
 from ast import literal_eval
 
@@ -14,7 +14,13 @@ faces = []
 def main():
     #return send_from_directory('','index.html')
     #return app.send_static_file('index.html')
-    return render_template('index.html')
+    return redirect("/facerecognition", code=302)
+
+@app.route("/clear")
+def clear():
+    global faces
+    faces = []
+    return redirect("/facerecognition", code=302)
 
 @app.route("/faces/<path:filename>")
 def returnFace(filename):

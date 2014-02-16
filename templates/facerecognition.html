@@ -7,14 +7,14 @@
 	</head>
 	<body>
 		<center>
-        	<h1>Attendence Sheet</h1>
+        	<h1>Attendance Sheet</h1>
             <br>
     	</center>
     <table border="5" bordercolor="##666699" align="center">
     	<tr>
             <th colspan="6"></th> 
         </tr>
-        <tr>
+        <!--<tr>
             <th style ="font-size: 20px">Photo</th>
             <th style ="font-size: 20px">Photo</th>
             <th style ="font-size: 20px">Photo</th>
@@ -22,13 +22,24 @@
             <th style ="font-size: 20px">Photo</th>
             <th style ="font-size: 20px">Photo</th>
             
-        </tr>
+        </tr>-->
         <tr>
 		{% for face in faces %}
-
+    {% if loop.index is divisibleby 5 %}
 			<td><img src = "{{face}}" border=3 height=200 width=200> </td>
+      </tr>
+      <tr>
+    {% endif %}
+
+    {% if loop.index is not divisibleby 5 %}
+			<td><img src = "{{face}}" border=3 height=200 width=200> </td>
+    {% endif %}
 		{% endfor %}
 		</tr>
+
+    <center>
+      <a href="/" style="color: #FFF">Clear the Faces</a>
+    </center>
 	</body>
 
 	
