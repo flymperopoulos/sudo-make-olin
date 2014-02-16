@@ -26,7 +26,8 @@ def transmitFrame():
         if not frameQueue.empty():
             print "Transmitting!"
             frame = frameQueue.get()
-            payload = {'img':json.dumps({'frame':frame})}
+            #payload = {'img':base64.b64encode(json.dumps(frame.tolist()))}
+            payload = {'img':json.dumps(frame.tolist())}
             #header = headers = {'Content-type': 'binary/octet-stream','Content-length':len(payload),'Content-transfer-encoding': 'binary',}
             r = requests.post(url,data=payload)
 
